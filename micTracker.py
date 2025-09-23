@@ -1,7 +1,7 @@
 '''
 This file should:
 - have a function for tracking when your mic is muted on zoom
-- have a function for tracking when your speaking into your system mic (for now just make sure it works for your computer mic)
+- have a function for tracking when you're speaking into your system mic (for now just make sure it works for your computer mic)
 - print when your mic is muted on Zoom and you are speaking for more than 2 seconds
 
 - file should wait until the conditions (mic is closed and user has talked for 2 seconds) to send message to console
@@ -11,6 +11,14 @@ This file should:
 import sounddevice as sd # cross platform mic capture
 import pkg_resources
 import webrtcvad #library for turning short audio frames into speech:true/false
+
+#pyobjc packages
+from Foundation import NSWorkspace
+#Quartz for accessibility APIs (to access zoom desktop app)
+from Quartz import AXIsProcessTrustedWithOptions, kAXTrustedCheckOptionPrompt
+from Quartz import AXUIElementCreateApplication, AXUIElementCopyAttributeValue
+from Quartz import kAXWindowsAttribute, kAXChildrenAttribute, kAXRoleAttribute, kAXTitleAttribute
+from Quartz import kAXButtonRole
 
 '''
 function to be called continuously with new audio frames everytime the input stream has a new block of audio
