@@ -9,7 +9,8 @@ This file should:
 '''
 
 import sounddevice as sd # cross platform mic capture
-#import webrtcvad #library for turning short audio frames into speech:true/false
+import pkg_resources
+import webrtcvad #library for turning short audio frames into speech:true/false
 
 '''
 function to be called continuously with new audio frames everytime the input stream has a new block of audio
@@ -18,14 +19,19 @@ frames = number of samples delivered in this block
 time = small object with timing info
 status = tells if audio system had a hiccup
 '''
+vad = webrtcvad.Vad(2)#2 for medium strictness speech detection
+
 def callback(indata, frames, time, status):
-    if status:
-        print("Status: ", status)
-    print("Got", frames, "samples")
+    frame_bytes = indata.tobytes()
+
+    if vad.is_speech(frame_bytes, 16000):
+        print("speaking")
+    else:
+        print("silence")
 
 #16kHz mono, 20mss blocks
-samplerate = 8000#how many samples per second to record, each sample is one number representing sound pressure at that instant
-frame_ms = 1000#how long each block of audio should be in milliseconds
+samplerate = 16000#how many samples per second to record, each sample is one number representing sound pressure at that instant
+frame_ms = 20#how long each block of audio should be in milliseconds
 blocksize = int(samplerate * frame_ms / 1000)  #hnumber of samples per block
 
 '''
