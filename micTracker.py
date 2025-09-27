@@ -20,6 +20,8 @@ from Quartz import AXUIElementCreateApplication, AXUIElementCopyAttributeValue
 from Quartz import kAXWindowsAttribute, kAXChildrenAttribute, kAXRoleAttribute, kAXTitleAttribute
 from Quartz import kAXButtonRole
 
+vad = webrtcvad.Vad(2)#2 for medium strictness speech detection
+
 '''
 function to be called continuously with new audio frames everytime the input stream has a new block of audio
 args: indata = Numpy array with audio samples
@@ -27,8 +29,6 @@ frames = number of samples delivered in this block
 time = small object with timing info
 status = tells if audio system had a hiccup
 '''
-vad = webrtcvad.Vad(2)#2 for medium strictness speech detection
-
 def callback(indata, frames, time, status):
     frame_bytes = indata.tobytes()
 
