@@ -11,14 +11,6 @@ This file should:
 import sounddevice as sd # cross platform mic capture
 import webrtcvad #library for turning short audio frames into speech:true/false
 
-#pyobjc packages
-from AppKit import NSWorkspace#type: ignore
-#ApplicationServices for accessibility APIs (to access zoom desktop app)
-from ApplicationServices import AXIsProcessTrustedWithOptions, kAXTrustedCheckOptionPrompt, kAXButtonRole #type: ignore
-from ApplicationServices import AXUIElementCreateApplication, AXUIElementCopyAttributeValue#type: ignore
-from ApplicationServices import kAXWindowsAttribute, kAXChildrenAttribute, kAXRoleAttribute, kAXTitleAttribute#type: ignore
-
-
 vad = webrtcvad.Vad(2)#2 for medium strictness speech detection
 
 '''
